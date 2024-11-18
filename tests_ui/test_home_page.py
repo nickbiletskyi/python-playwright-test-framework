@@ -2,15 +2,14 @@ from pom.login_page import LoginPage
 from pom.home_page import HomePage
 from playwright.sync_api import Playwright, sync_playwright, expect
 
-def test_login(playwright: Playwright):
+def test_home_page(playwright: Playwright):
     browser = playwright.chromium.launch(headless=False)
     context = browser.new_context()
     page = context.new_page()
-    login_page = LoginPage(page=page)
-    login_page.navigate()
-    login_page.login_with_user()
     home_page = HomePage(page=page)
-    expect(home_page.top_bar_username).to_be_visible()
+    home_page.navigate()
+    page.reload()
+    home_page.test_random_donate()
     browser.close()
 
 
