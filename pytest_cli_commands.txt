@@ -1,0 +1,43 @@
+
+
+Stop at the first failure:
+ pytest -x
+
+Allow n max failures before stopping:
+    pytest --maxfail=3
+
+Run a single test:
+    pytest -k test_func_name
+
+Re-run last failed tests only:
+    pytest --lf
+
+Re-run all the test but failed one first:
+    pytest --ff
+
+You can combine cli options
+    pytest --ff -x -v
+
+
+
+
+
+Note that CLI arguments are only applied to the default browser, context and page fixtures. If you create a browser, a context or a page with the API call like browser.new_context(), the CLI arguments are not applied.
+
+--headed: Run tests in headed mode (default: headless).
+--browser: Run tests in a different browser chromium, firefox, or webkit. It can be specified multiple times (default: chromium).
+--browser-channel Browser channel to be used.
+--slowmo Slows down Playwright operations by the specified amount of milliseconds. Useful so that you can see what is going on (default: 0).
+--device Device to be emulated. List of all supported devices: https://github.com/microsoft/playwright/blob/main/packages/playwright-core/src/server/deviceDescriptorsSource.json
+--output Directory for artifacts produced by tests (default: test-results).
+--tracing Whether to record a trace for each test. on, off, or retain-on-failure (default: off).
+--video Whether to record video for each test. on, off, or retain-on-failure (default: off).
+--screenshot Whether to automatically capture a screenshot after each test. on, off, or only-on-failure (default: off).
+--full-page-screenshot Whether to take a full page screenshot on failure. By default, only the viewport is captured. Requires --screenshot to be enabled (default: off).
+
+
+pytest --headed --browser=firefox --browser=webkit
+
+to use real browser: pytest --headed --browser-channel=chrome
+to run on device: --device='iPhone 14'
+base url:
