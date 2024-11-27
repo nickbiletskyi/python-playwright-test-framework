@@ -1,0 +1,17 @@
+repos:
+  - repo: https://github.com/psf/black
+    rev: 24.10.0
+    hooks:
+      - id: black
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+#  - repo: https://github.com/pre-commit/mirrors-pylint
+#    rev: v3.0.0a5
+#    hooks:
+#      - id: pylint
+#        args: ["--disable=C0114,C0115,C0116"]
+#        pass_failing_hooks: true
+#        continue_on_failure: true
+#        always_run: true
