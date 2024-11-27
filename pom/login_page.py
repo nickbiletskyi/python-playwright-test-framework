@@ -1,9 +1,6 @@
 import os
 
-from dotenv import load_dotenv
 from playwright.sync_api import Page, expect
-
-load_dotenv()
 
 
 class LoginPage:
@@ -23,8 +20,8 @@ class LoginPage:
 
     def login_with_user(
         self,
-        username: str = os.getenv("USER_ADMIN_USERNAME"),
-        password: str = os.getenv("USER_ADMIN_PASSWORD"),
+        username: str = os.environ["USER_ADMIN_USERNAME"],
+        password: str = os.environ["USER_ADMIN_PASSWORD"],
     ):
         self.email_input.fill(username)
         self.password_input.fill(password)
