@@ -1,64 +1,68 @@
+import os
+
 import pytest
+from playwright.sync_api import sync_playwright
 
 from pom.login_page import LoginPage
 
 
 @pytest.fixture(scope="session")
-def set_up_browser(browser) -> None:
+def playwright():
     """
+    Playwright session scope fixture.
+    """
+    with sync_playwright() as p:
+        yield p
 
-    :param page:
-    :return: None
-    pytest --headed: to run in headless mode
+
+@pytest.fixture(scope="session")
+def browser_context(playwright):
     """
+    Creates a browser context for the entire session.
+    """
+    browser = playwright.chromium.launch(headless=False, slow_mo=300)
     context = browser.new_context()
-    page = context.new_page()
-    yield page
+    yield context
     context.close()
+    browser.close()
 
 
-@pytest.fixture()
-def set_up_browser_page_scope(page) -> None:
+@pytest.fixture(scope="session")
+def login_set_up_browser(browser_context):
     """
-
-    :param page:
-    :return: None
-    pytest --headed: to run in headless mode
+    Logs into the application and prepares the browser context.
     """
+    page = browser_context.new_page()
+    login_page = LoginPage(page)
+    login_page.navigate()
+    login_page.login_with_user()
+    page.wait_for_load_state("networkidle")
+    browser_context.storage_state(path="state.json")
+    yield browser_context
+    page.close()
+
+
+@pytest.fixture
+def open_new_tab(login_set_up_browser):
+    """
+    Opens a new tab in the logged-in browser context.
+    """
+    page = login_set_up_browser.new_page()
     yield page
     page.close()
 
 
-@pytest.fixture(scope="session")
-def login_set_up_browser(set_up_browser) -> None:
+@pytest.fixture
+def set_up_browser_page_scope(playwright):
     """
-
-    :param page:
-    :return: None
-    pytest --headed: to run in headless mode
+    Opens a fresh browser page for each test with saved state
     """
-    page = set_up_browser
-    login_page = LoginPage(page)
-    login_page.navigate()
-    login_page.login_with_user()
+    browser = playwright.chromium.launch(headless=False, slow_mo=300)
+    context = browser.new_context(storage_state="state.json")
+    page = context.new_page()
     yield page
-    page.context.close()
-
-
-@pytest.fixture()
-def login_set_up_browser_page_scope(set_up_browser_page_scope) -> None:
-    """
-
-    :param page:
-    :return: None
-    pytest --headed: to run in headless mode
-    """
-    page = set_up_browser_page_scope
-    login_page = LoginPage(page)
-    login_page.navigate()
-    login_page.login_with_user()
-    yield page
-    page.context.close()
+    context.close()
+    browser.close()
 
 
 # @pytest.hookimpl(tryfirst=True, hookwrapper=True)

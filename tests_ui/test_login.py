@@ -5,8 +5,8 @@ from pom.home_page import HomePage
 from pom.login_page import LoginPage
 
 
-def test_login(login_set_up_browser: Page):
-    page = login_set_up_browser
+def test_login(set_up_browser_page_scope: Page):
+    page = set_up_browser_page_scope
     home_page = HomePage(page=page)
     expect(home_page.top_bar_username).to_be_visible()
     assert page.title() == "Non-Existent Title"

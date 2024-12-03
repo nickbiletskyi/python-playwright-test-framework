@@ -6,8 +6,8 @@ from pom.home_page import HomePage
 
 @pytest.mark.regression
 @pytest.mark.smoke
-def test_home_page(set_up_browser: Page):
-    page = set_up_browser
+def test_home_page(open_new_tab: Page):
+    page = open_new_tab
     home_page = HomePage(page=page)
     home_page.navigate()
     page.reload()
@@ -15,8 +15,8 @@ def test_home_page(set_up_browser: Page):
 
 
 @pytest.mark.skip(reason="not ready")
-def test_home_page_to_skip(set_up_browser: Page):
-    page = set_up_browser
+def test_home_page_to_skip(open_new_tab: Page):
+    page = open_new_tab
     home_page = HomePage(page=page)
     home_page.navigate()
     page.reload()
@@ -24,8 +24,8 @@ def test_home_page_to_skip(set_up_browser: Page):
 
 
 @pytest.mark.xfail(reason="not ready")
-def test_home_page_to_fail(set_up_browser: Page):
-    page = set_up_browser
+def test_home_page_to_fail(open_new_tab: Page):
+    page = open_new_tab
     assert 1 == 2
     home_page = HomePage(page=page)
     home_page.navigate()
