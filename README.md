@@ -9,7 +9,12 @@ to run in parallel: pytest -n number_of_workers
 
 
 linters:
-poetry run black .
+black .
+isort .
+
+update snapshots: pytest --update-snapshots
+
+
 
 
 

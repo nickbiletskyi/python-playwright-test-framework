@@ -6,3 +6,5 @@
 /tests_ui/screenshots/
 /screenshots/
 /.auth/
+/tests_ui/visual_tests/snapshot_tests_failures/
+/tests_ui/visual_tests/snapshots/
